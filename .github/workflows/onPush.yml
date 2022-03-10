@@ -31,6 +31,6 @@ jobs:
             github.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: "refs/tags/staging_${{ steps.date.outputs.date }}",
+              ref: "refs/tags/staging_${{ steps.date.outputs.timestamp }}",
               sha: context.sha
             })
