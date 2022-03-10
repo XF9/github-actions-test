@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 on:
   push:
 
@@ -15,8 +15,8 @@ jobs:
           node-version: '16'
       - run: npm install
       - run: npm run build
-  tag:
-    # only tag master
+  deploy to staging:
+    # trigger only on master
     if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: self-hosted
     steps:
@@ -30,3 +30,14 @@ jobs:
         with:
           tag: "staging_${{ steps.date.outputs.date }}"
           message: "Ready for staging"
+      - name: Publish to staging
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.REPO_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID}}
+          vercel-project-id: ${{ secrets.PROJECT_ID}}
+          #vercel-args: '--prod'
+      - name: preview-url
+        run: |
+          echo ${{ steps.vercel-action.outputs.preview-url }}
