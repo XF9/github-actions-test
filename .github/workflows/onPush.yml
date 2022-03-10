@@ -25,12 +25,7 @@ jobs:
         run: echo "::set-output name=timestamp::$(date +'%Y%m%d%H%m')"
       - name: Create staging tag
         id: tag_staging
-        uses: actions/github-script@v6
+        uses: rickstaa/action-create-tag@v1
         with:
-          script: |
-            github.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: "refs/tags/staging_${{ steps.date.outputs.timestamp }}",
-              sha: context.sha
-            })
+          tag: "staging_${{ steps.date.outputs.timestamp }}"
+          message: "Ready for staging"
