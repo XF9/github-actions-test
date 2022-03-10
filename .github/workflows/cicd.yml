@@ -23,6 +23,7 @@ jobs:
     needs: build # requires a successfull build
     if: ${{ github.ref == 'refs/heads/master' }} # trigger only on master
     runs-on: self-hosted
+    environment: Staging
     steps:
       - name: Checkout
         uses: actions/checkout@v2
