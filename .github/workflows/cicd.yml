@@ -15,7 +15,7 @@ jobs:
           node-version: '16'
       - run: npm install
       - run: npm run build
-  deploy to staging:
+  deploy-staging:
     # trigger only on master
     if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: self-hosted
