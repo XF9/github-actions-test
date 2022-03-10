@@ -25,8 +25,8 @@ jobs:
         run: echo "::set-output name=timestamp::$(date +'%Y%m%d%H%m')"
       - name: Create staging tag
         id: tag_staging
-        uses: actions/checkout@v2
-        uses: rickstaa/action-create-tag@v1
-        with:
-          tag: "staging_${{ steps.date.outputs.timestamp }}"
-          message: "Ready for staging"
+        - uses: actions/checkout@v2
+        - uses: rickstaa/action-create-tag@v1
+          with:
+            tag: "staging_${{ steps.date.outputs.timestamp }}"
+            message: "Ready for staging"
