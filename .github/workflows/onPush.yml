@@ -20,8 +20,13 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
-      - uses: rickstaa/action-create-tag@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d%H%m')"
+      - name: Create tag
+        uses: rickstaa/action-create-tag@v1
         with:
-          tag: "staging_${{ $(date +'%Y%m%d%H%m') }}"
+          tag: "staging_${{ steps.date.outputs.date }}"
           message: "Ready for staging"
