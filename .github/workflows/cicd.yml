@@ -20,7 +20,7 @@ jobs:
       - name: Build
         run: npm run build
   deploy-staging:
-    needs: buil # requires a successfull build
+    needs: build # requires a successfull build
     if: ${{ github.ref == 'refs/heads/master' }} # trigger only on master
     runs-on: self-hosted
     steps:
