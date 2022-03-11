@@ -54,3 +54,5 @@ out/
 **/supabase/.env
 
 supabase/flyway/config.js
+
+.env
