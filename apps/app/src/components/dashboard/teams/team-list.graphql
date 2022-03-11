@@ -1,0 +1,23 @@
+query GetUserTeams {
+    getUserProfile {
+        teams {
+            ...TeamFields
+            myPermissions {
+                permissionLevel
+            }
+        }
+    }
+}
+
+mutation CreateTeam($input: CreateTeamInput!) {
+    createTeam(input: $input) {
+        ...TeamFields
+    }
+}
+
+fragment TeamFields on Team {
+    id
+    uid
+    tid
+    name
+}

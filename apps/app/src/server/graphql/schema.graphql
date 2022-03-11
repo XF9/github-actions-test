@@ -1,0 +1,108 @@
+type Query {
+    getUserProfile: Profile
+
+    searchProfiles(input: SearchProfilesInput!): SearchProfilesResult!
+
+    getTeam(id: ID!): Team
+}
+
+type Mutation {
+    createUserProfile (input: CreateUserProfileInput!): Profile
+    updateUserProfile(input: UpdateProfileInput!): Profile
+
+    inviteMembers(input: InviteMembersInput!): Team
+    removeMember(input: RemoveMemberInput!): Team
+    updateMemberPermission(input: UpdateMemberPermissionInput!) : Team
+
+    createTeam (input: CreateTeamInput!): Team
+    updateTeam (input: UpdateTeamInput!): Team
+}
+
+type Profile {
+    id: ID!
+    uid: String!
+    name: String!
+    avatar: Avatar
+    teams: [Team!]
+}
+
+input SearchProfilesInput {
+    uid: String
+    name: String
+    limit: Int
+}
+
+type SearchProfilesResult {
+    profiles: [Profile!]!
+    count: Int!
+}
+
+type Avatar {
+    url: String
+    filename: String
+}
+
+type Team {
+    id: ID!
+    tid: String!
+    uid: String!
+    name: String!
+    myPermissions: TeamPermission!
+    members: [Member!]!
+}
+
+type TeamPermission {
+    permissionLevel: PermissionLevel!
+}
+
+enum PermissionLevel {
+    OWNER, ADMIN, MEMBER, INVITED
+}
+
+type Member {
+    profile: Profile!
+    permission: TeamPermission!
+}
+
+input CreateUserProfileInput {
+    uid: String!
+    name: String
+}
+
+input UpdateProfileInput {
+    uid: String
+    name: String
+    avatar: AvatarInput
+}
+
+input InviteMembersInput {
+    teamId: ID!
+    profileIds: [ID!]!
+}
+
+
+input RemoveMemberInput {
+    teamId: ID!
+    profileId: ID!
+}
+
+input UpdateMemberPermissionInput {
+    teamId: ID!
+    profileId: ID!
+    permissionLevel: PermissionLevel!
+}
+
+input AvatarInput {
+    filename: String
+}
+
+input CreateTeamInput {
+    tid: String!
+    name: String
+}
+
+input UpdateTeamInput {
+    id: ID!
+    tid: String
+    name: String
+}

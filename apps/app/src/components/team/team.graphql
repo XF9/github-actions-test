@@ -1,0 +1,51 @@
+query GetTeamByTid($id: ID!) {
+    getTeam(id: $id) {
+        id
+        uid
+        tid
+        name
+        myPermissions {
+            permissionLevel
+        }
+        members {
+            profile {
+                id
+                uid
+                name
+                avatar {
+                    url
+                }
+            }
+            permission {
+                permissionLevel
+            }
+        }
+    }
+}
+
+query SearchProfiles($input: SearchProfilesInput!) {
+    searchProfiles(input: $input) {
+        profiles {
+            id
+            name
+            avatar {
+                url
+            }
+        }
+        count
+    }
+}
+
+mutation InviteToTeam($input: InviteMembersInput!) {
+    inviteMembers(input: $input) {
+        id
+        members {
+            profile {
+                id
+            }
+            permission {
+                permissionLevel
+            }
+        }
+    }
+}

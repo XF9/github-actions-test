@@ -1,70 +1,106 @@
-# Getting Started with Create React App
+# The Agity project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Turborepo starter with NPM
 
-In the project directory, you can run:
+This repository is set up to use [Turborepo](https://turborepo.org) with [NPM](https://www.npmjs.com/) as a package manager. It includes the following packages/apps:
 
-### `npm start`
+### Apps and Packages
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### Apps
+- `app`: a [Next.js](https://nextjs.org) app to provide the core application of Agity.
+- `web`: a [Next.js](https://nextjs.org) app to provide the front page of Agity.
+- `doc`: a [Next.js](https://nextjs.org) app to provide a documentation and help center.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### Packages
+- `ui`: a simple React component library shared by the applications
+- `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `tsconfig`: `tsconfig.json`s used throughout the monorepo
 
-### `npm test`
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Utilities
 
-### `npm run build`
+This project has some additional tools already setup:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [TypeScript](https://www.typescriptlang.org/) for static type checking
+- [ESLint](https://eslint.org/) for code linting
+- [Prettier](https://prettier.io) for code formatting
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Setup
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This is easily done inside the root package.json. 
+Run `npm install` to create the symlinks inside node_modules for all apps and packages in this repository.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Build
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To build all apps and packages, run `npm run build`. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+To build a specific app-part of the repository run:`npm run build:app`.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Develop
 
-## Learn More
+To develop all apps and packages, run `npm run dev`.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Running the start script from a subpackage is done with the following command:
+```
+npm run --workspace app dev
+# or for short
+npm run -w app dev 
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Installing / Uninstalling Dependencies
 
-### Code Splitting
+When installing new packages, you must keep in mind that the commands to install dependencies and run scripts are different as the dependencies are managed by the Turborepo. 
+```
+npm install --workspace app neverthrow
+# or for short
+npm i -w app neverthrow
+```
+Do not try to install the npm project inside the apps itself. This will break your local environment.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Remote Caching
 
-### Making a Progressive Web App
+Turborepo can use a technique known as [Remote Caching (Beta)](https://turborepo.org/docs/features/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+By default, Turborepo will cache locally. To enable Remote Caching (Beta) you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
 
-### Advanced Configuration
+```
+npx turbo login
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
 
-### Deployment
+Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```
+npx turbo link
+```
 
-### `npm run build` fails to minify
+### Migrations
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If you are using the supabase cli tools, migrations will be handled by that. If you don't use the cli tools (eg. updating selfhosted / production environment), you can migrate via `npm run migrate`. In order to use this command, you will need to add a config file, containing the credentials for your postgress instance. Please create `supabase/migrations/conf/config.js` and add your credentials:
+
+```js
+module.exports = 
+{
+    db_host: 'supabase-db:5432',
+    db_user: 'postgres',
+    db_password: 'your-super-secret-and-long-postgres-password',
+}
+
+```
+
+## Useful links regarding Turborepo
+
+Learn more about the power of Turborepo:
+
+- [Pipelines](https://turborepo.org/docs/features/pipelines)
+- [Caching](https://turborepo.org/docs/features/caching)
+- [Remote Caching (Beta)](https://turborepo.org/docs/features/remote-caching)
+- [Scoped Tasks](https://turborepo.org/docs/features/scopes)
+- [Configuration Options](https://turborepo.org/docs/reference/configuration)
+- [CLI Usage](https://turborepo.org/docs/reference/command-line-reference)

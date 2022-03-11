@@ -1,0 +1,21 @@
+query UserProfile {
+    getUserProfile {
+        ...UserProfileFields
+    }
+}
+
+mutation UpdateUserProfile($input: UpdateProfileInput!) {
+    updateUserProfile(input: $input) {
+        ...UserProfileFields
+    }
+}
+
+fragment UserProfileFields on Profile {
+    id
+    uid
+    name
+    avatar {
+        url
+        filename
+    }
+}
