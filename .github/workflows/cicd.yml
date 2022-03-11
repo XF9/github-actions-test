@@ -19,10 +19,10 @@ jobs:
         run: npm install
       - name: Build
         env:
-          HOME_URL:
-          NEXT_PUBLIC_SUPABASE_URL:
-          NEXT_PUBLIC_SUPABASE_ANON_KEY:
-          NEXT_PUBLIC_SUPABASE_SERVICE_KEY:
+          HOME_URL: 'Not set'
+          NEXT_PUBLIC_SUPABASE_URL: 'Not set'
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: 'Not set'
+          NEXT_PUBLIC_SUPABASE_SERVICE_KEY: 'Not set'
         run: npm run build
   deploy-staging:
     needs: build # requires a successfull build
