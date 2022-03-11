@@ -82,17 +82,7 @@ npx turbo link
 
 ### Migrations
 
-If you are using the supabase cli tools, migrations will be handled by that. If you don't use the cli tools (eg. updating selfhosted / production environment), you can migrate via `npm run migrate`. In order to use this command, you will need to add a config file, containing the credentials for your postgress instance. Please create `supabase/migrations/conf/config.js` and add your credentials:
-
-```js
-module.exports = 
-{
-    db_host: 'supabase-db:5432',
-    db_user: 'postgres',
-    db_password: 'your-super-secret-and-long-postgres-password',
-}
-
-```
+If you are using the supabase cli tools, migrations will be handled by that. If you don't use the cli tools (eg. updating selfhosted / production environment), you can migrate via `npm run migrate`. In order to use this command, you will need to set your environment variables. To do so use the provided `.env.example` as template and create a similar `.env` file.
 
 ## Useful links regarding Turborepo
 
