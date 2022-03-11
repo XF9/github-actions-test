@@ -17,12 +17,12 @@ jobs:
           node-version: '16'
       - name: Install dependencies
         run: npm install
-      - name: Create .env file
-        uses: finnp/create-file-action@master
-        env:
-          FILE_NAME: "apps/app/.env.local"
-          FILE_DATA: "HOME_URL:\nNEXT_PUBLIC_SUPABASE_URL:\nNEXT_PUBLIC_SUPABASE_ANON_KEY:\nNEXT_PUBLIC_SUPABASE_SERVICE_KEY:\n"
       - name: Build
+        env:
+          HOME_URL:
+          NEXT_PUBLIC_SUPABASE_URL:
+          NEXT_PUBLIC_SUPABASE_ANON_KEY:
+          NEXT_PUBLIC_SUPABASE_SERVICE_KEY:
         run: npm run build
   deploy-staging:
     needs: build # requires a successfull build
