@@ -17,6 +17,8 @@ jobs:
           node-version: '16'
       - name: Install dependencies
         run: npm install
+      - name: Lint
+        run: npm run lint
       - name: Build
         env:
           HOME_URL: 'Not set'
