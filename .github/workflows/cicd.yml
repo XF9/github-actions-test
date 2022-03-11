@@ -20,7 +20,7 @@ jobs:
       - name: Create .env file
         uses: finnp/create-file-action@master
         env:
-          FILE_NAME: "apps/app/.env"
+          FILE_NAME: "apps/app/.env.local"
           FILE_DATA: "HOME_URL:\nNEXT_PUBLIC_SUPABASE_URL:\nNEXT_PUBLIC_SUPABASE_ANON_KEY:\nNEXT_PUBLIC_SUPABASE_SERVICE_KEY:\n"
       - name: Build
         run: npm run build
