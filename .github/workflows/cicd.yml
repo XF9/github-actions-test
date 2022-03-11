@@ -38,6 +38,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16'
+      - name: Install dependencies
+        run: npm install
       - name: Run migrations
         env:
           MIGRATIONS_POSTGRES_URL: ${{ secrets.SUPABASE_DB_URL }}
