@@ -19,9 +19,9 @@ jobs:
         run: npm install
       - name: Create .env file
         uses: finnp/create-file-action@master
-          env:
-            FILE_NAME: "apps/app/.env"
-            FILE_DATA: "HOME_URL:\nNEXT_PUBLIC_SUPABASE_URL:\nNEXT_PUBLIC_SUPABASE_ANON_KEY:\nNEXT_PUBLIC_SUPABASE_SERVICE_KEY:\n"
+        env:
+          FILE_NAME: "apps/app/.env"
+          FILE_DATA: "HOME_URL:\nNEXT_PUBLIC_SUPABASE_URL:\nNEXT_PUBLIC_SUPABASE_ANON_KEY:\nNEXT_PUBLIC_SUPABASE_SERVICE_KEY:\n"
       - name: Build
         run: npm run build
   deploy-staging:
