@@ -1,4 +1,4 @@
-name: CICD
+name: CI/CD
 on:
   push:
 
@@ -59,8 +59,8 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.REPO_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID}}
-          vercel-project-id: ${{ secrets.PROJECT_ID}}
+          #vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           #vercel-args: '--prod'
       - name: preview-url
         run: echo ${{ steps.vercel-action.outputs.preview-url }}
