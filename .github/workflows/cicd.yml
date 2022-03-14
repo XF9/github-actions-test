@@ -42,9 +42,9 @@ jobs:
         run: npm install
       - name: Run migrations
         env:
-          MIGRATIONS_POSTGRES_URL: ${{ secrets.SUPABASE_DB_URL }}
-          MIGRATIONS_POSTGRES_USER: ${{ secrets.SUPABASE_DB_USER }}
-          MIGRATIONS_POSTGRES_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+          MIGRATIONS_POSTGRES_URL: ${{ env.SUPABASE_DB_URL }}
+          MIGRATIONS_POSTGRES_USER: ${{ env.SUPABASE_DB_USER }}
+          MIGRATIONS_POSTGRES_PASSWORD: ${{ env.SUPABASE_DB_PASSWORD }}
         run: npm run migrate && npm run migrate # two times, becasue the first time it will only download the files
       - name: Get current date
         id: date
@@ -58,8 +58,8 @@ jobs:
         uses: amondnet/vercel-action@v20
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.REPO_TOKEN }}
-          #vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           #vercel-args: '--prod'
       - name: preview-url
