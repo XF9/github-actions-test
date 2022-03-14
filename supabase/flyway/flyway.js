@@ -15,7 +15,7 @@ if (!process.env.MIGRATIONS_POSTGRES_PASSWORD) {
 module.exports = function() {
     return {
         flywayArgs: {
-            url: `jdbc:postgresql://${process.env.MIGRATIONS_POSTGRES_URL}/`,
+            url: `jdbc:postgresql://${process.env.MIGRATIONS_POSTGRES_URL}`,
             user: process.env.MIGRATIONS_POSTGRES_USER,
             password: process.env.MIGRATIONS_POSTGRES_PASSWORD,
 
