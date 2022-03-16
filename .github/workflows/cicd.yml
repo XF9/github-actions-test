@@ -46,14 +46,6 @@ jobs:
           MIGRATIONS_POSTGRES_USER: ${{ secrets.MIGRATIONS_POSTGRES_USER }}
           MIGRATIONS_POSTGRES_PASSWORD: ${{ secrets.MIGRATIONS_POSTGRES_PASSWORD }}
         run: npm run migrate && npm run migrate # two times, becasue the first time it will only download the files
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y%m%d%H%M')"
-      - name: Create tag
-        uses: rickstaa/action-create-tag@v1
-        with:
-          tag: "staging_${{ steps.date.outputs.date }}"
-          message: "Ready for staging"
       - name: Publish to staging
         uses: amondnet/vercel-action@v20
         with:
@@ -64,3 +56,17 @@ jobs:
           #vercel-args: '--prod'
       - name: preview-url
         run: echo ${{ steps.vercel-action.outputs.preview-url }}
+  tag:
+    needs: deploy-staging
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d%H%M')"
+      - name: Create tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "staging_${{ steps.date.outputs.date }}"
+          message: "Ready for staging"
