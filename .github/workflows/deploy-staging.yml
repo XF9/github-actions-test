@@ -1,34 +1,17 @@
 name: CI/CD
 on:
+  # Push to master
   push:
+    branch:
+      - 'master'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: self-hosted
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-      - name: Install dependencies
-        run: npm install
-      - name: Lint
-        run: npm run lint
-      - name: Build
-        env:
-          HOME_URL: 'Not set'
-          NEXT_PUBLIC_SUPABASE_URL: 'Not set'
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: 'Not set'
-          NEXT_PUBLIC_SUPABASE_SERVICE_KEY: 'Not set'
-        run: npm run build
+    uses: ./.github/workflows/build.yml
   deploy-staging:
-    needs: build # requires a successfull build
-    if: ${{ github.ref == 'refs/heads/master' }} # trigger only on master
     runs-on: self-hosted
     environment: Staging
     steps:
