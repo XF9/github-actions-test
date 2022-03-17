@@ -29,7 +29,7 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           vercel-args: '--prod'
           #scope: [TeamId]
-          alias-doimains: |
+          alias-domains: |
             github-actions-test-dev.vercel.app
       - name: preview-url
         run: echo ${{ steps.vercel-action.outputs.preview-url }}
