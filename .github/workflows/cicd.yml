@@ -54,6 +54,9 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           #vercel-args: '--prod'
+          #scope: [TeamId]
+          alias-doimains: |
+            github-actions-test-staging.vercel.app
       - name: preview-url
         run: echo ${{ steps.vercel-action.outputs.preview-url }}
   tag:
