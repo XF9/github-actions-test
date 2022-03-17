@@ -1,4 +1,4 @@
-name: Deploy-dev
+name: deploy-dev
 on:
   push:
     tags:
