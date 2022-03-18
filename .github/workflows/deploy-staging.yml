@@ -13,11 +13,12 @@ jobs:
     steps:
       - name: Build
         uses: ./.github/workflows/build.yml
-        secrets:
-          URL: ${{ secrets.URL }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        with:
+          secrets:
+            URL: ${{ secrets.URL }}
+            SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+            SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+            SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
       - name: Upload staging artifact
         uses: actions/upload-artifact@v2
         with:
