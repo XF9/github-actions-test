@@ -10,27 +10,28 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/build.yml
-    # with:
-    #  branch: ${GITHUB_REF##*/} # current branch
-    secrets:
-      URL: ${{ secrets.URL }}
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-      SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+    steps:
+      - name: Build
+        uses: ./.github/workflows/build.yml
+        secrets:
+          URL: ${{ secrets.URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+      - name: Upload staging artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: *
+          name: staging-latest
   deploy-staging:
     needs: build
     environment: Staging
     runs-on: self-hosted
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install node
-        uses: actions/setup-node@v2
+      - name: Download staging artifact
+        uses: actions/download-artifact@v2
         with:
-          node-version: '16'
-      - name: Install dependencies
-        run: npm install
+          name: staging-latest
       - name: Run migrations
         env:
           MIGRATIONS_POSTGRES_URL: ${{ secrets.MIGRATIONS_POSTGRES_URL }}
