@@ -7,6 +7,15 @@ on:
 
   # called from other workflows
   workflow_call:
+    secrets:
+      URL:
+        required: true
+      SUPABASE_URL:
+        required: true
+      SUPABASE_ANON_KEY:
+        required: true
+      SUPABASE_SERVICE_KEY:
+        required: true
   
   # run manually
   workflow_dispatch:
@@ -27,8 +36,8 @@ jobs:
         run: npm run lint
       - name: Build
         env:
-          HOME_URL: 'Not set'
-          NEXT_PUBLIC_SUPABASE_URL: 'Not set'
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: 'Not set'
-          NEXT_PUBLIC_SUPABASE_SERVICE_KEY: 'Not set'
+          HOME_URL: ${{ secrets.URL }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: npm run build

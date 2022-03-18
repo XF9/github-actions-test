@@ -10,11 +10,12 @@ on:
 
 jobs:
   build:
+    environment: Staging
     uses: ./.github/workflows/build.yml
   deploy-staging:
     needs: build
-    runs-on: self-hosted
     environment: Staging
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -40,7 +41,7 @@ jobs:
           #vercel-args: '--prod'
           #scope: [TeamId]
           alias-domains: |
-            github-actions-test-staging.vercel.app
+            ${{ secrets.URL}}
       - name: preview-url
         run: echo ${{ steps.vercel-action.outputs.preview-url }}
   tag:
