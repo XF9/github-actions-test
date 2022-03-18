@@ -9,11 +9,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    environment: Staging
-    runs-on: self-hosted
-    steps:
-      - uses: ./.github/workflows/build.yml
   deploy-staging:
     needs: build
     environment: Staging
@@ -27,6 +22,8 @@ jobs:
           node-version: '16'
       - name: Install dependencies
         run: npm install
+      - name: Build
+        uses: ./.github/workflows/build.yml
       - name: Run migrations
         env:
           MIGRATIONS_POSTGRES_URL: ${{ secrets.MIGRATIONS_POSTGRES_URL }}
@@ -46,12 +43,6 @@ jobs:
             ${{ secrets.URL}}
       - name: preview-url
         run: echo ${{ steps.vercel-action.outputs.preview-url }}
-  tag:
-    needs: deploy-staging
-    runs-on: self-hosted
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y%m%d%H%M')"
