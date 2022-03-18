@@ -10,21 +10,15 @@ on:
 
 jobs:
   build:
-    environment: Staging
-    runs-on: self-hosted
-    steps:
-      - name: Build
-        uses: ./.github/workflows/build.yml
-        secrets:
-          URL: ${{ secrets.URL }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-      - name: Upload staging artifact
-        uses: actions/upload-artifact@v2
-        with:
-          path: ./*
-          name: staging-latest
+    uses: ./.github/workflows/build.yml
+    with:
+      artifact-name: staging-latest
+    secrets:
+      URL: ${{ secrets.URL }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+      
   deploy-staging:
     needs: build
     environment: Staging

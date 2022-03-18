@@ -7,6 +7,9 @@ on:
 
   # called from other workflows
   workflow_call:
+    inputs:
+      artifact-name:
+        type: string
     secrets:
       URL:
         required: true
@@ -41,3 +44,9 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           NEXT_PUBLIC_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: npm run build
+      - name: Upload artifact
+        if: ${{ inputs.artifact-name }} != ''
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./*
+          name: ${{ inputs.artifact-name }}
