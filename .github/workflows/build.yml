@@ -48,7 +48,7 @@ jobs:
         if: ${{ inputs.artifact-name }} != ''
         uses: montudor/action-zip@v1
         with:
-          args: zip -2 -qq -r ${{ inputs.artifact-name }}.zip /apps/app/.next
+          args: zip -qq -r ${{ inputs.artifact-name }}.zip /apps/app/.next
       - name: Upload artifact
         if: ${{ inputs.artifact-name }} != ''
         uses: actions/upload-artifact@v2
