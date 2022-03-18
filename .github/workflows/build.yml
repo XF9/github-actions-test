@@ -44,12 +44,12 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           NEXT_PUBLIC_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: npm run build
-      - name: Bundle build
+      - name: Zip build
         if: ${{ inputs.artifact-name }} != ''
         uses: montudor/action-zip@v1
         with:
           args: zip -r ${{ inputs.artifact-name }}.zip .
-      - name: Zip artifact
+      - name: Upload artifact
         if: ${{ inputs.artifact-name }} != ''
         uses: actions/upload-artifact@v2
         with:
