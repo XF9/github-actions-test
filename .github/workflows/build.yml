@@ -44,9 +44,12 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           NEXT_PUBLIC_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: npm run build
+      - name: Bundle build
+        if: ${{ inputs.artifact-name }} != ''
+        run: zip -r ${{ inputs.artifact-name }}.zip ./*
       - name: Upload artifact
         if: ${{ inputs.artifact-name }} != ''
         uses: actions/upload-artifact@v2
         with:
-          path: ./*
+          path: ./${{ inputs.artifact-name }}.zip
           name: ${{ inputs.artifact-name }}

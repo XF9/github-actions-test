@@ -21,13 +21,17 @@ jobs:
       
   deploy-staging:
     needs: build
-    environment: Staging
+    environment: 
+      name: Staging
+      url: ${{ secrets.URL}}
     runs-on: self-hosted
     steps:
       - name: Download staging artifact
         uses: actions/download-artifact@v2
         with:
           name: staging-latest
+      - name: Unzip staging artifact
+        run: unzip staging-latest.zip
       - name: Run migrations
         env:
           MIGRATIONS_POSTGRES_URL: ${{ secrets.MIGRATIONS_POSTGRES_URL }}
