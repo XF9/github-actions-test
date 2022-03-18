@@ -23,8 +23,13 @@ jobs:
       #   run: npm install
       - name: Build
         uses: ./.github/workflows/build.yml
-        with:
-          branch: ${GITHUB_REF##*/} # current branch
+        #with:
+        #  branch: ${GITHUB_REF##*/} # current branch
+        secrets:
+          URL: ${{ secrets.URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
       - name: Run migrations
         env:
           MIGRATIONS_POSTGRES_URL: ${{ secrets.MIGRATIONS_POSTGRES_URL }}
