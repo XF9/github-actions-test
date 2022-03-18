@@ -31,11 +31,13 @@ jobs:
       - name: Unzip -qq staging artifact
         uses: montudor/action-zip@v1
         with:
-          args: unzip -o staging-latest.zip
+          args: unzip -o staging-latest.zip -d /apps/app/.next
       - name: Install node
         uses: actions/setup-node@v2
         with:
           node-version: '16'
+      - name: Install dependencies
+        run: npm install
       - name: Run migrations
         env:
           MIGRATIONS_POSTGRES_URL: ${{ secrets.MIGRATIONS_POSTGRES_URL }}
