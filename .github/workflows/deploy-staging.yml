@@ -21,9 +21,7 @@ jobs:
       
   deploy-staging:
     needs: build
-    environment: 
-      name: Staging
-      url: ${{ secrets.URL}}
+    environment: Staging
     runs-on: self-hosted
     steps:
       - name: Download staging artifact
