@@ -10,7 +10,6 @@ on:
 
 jobs:
   deploy-staging:
-    needs: build
     environment: Staging
     runs-on: self-hosted
     steps:
