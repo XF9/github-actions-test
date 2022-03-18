@@ -11,7 +11,9 @@ on:
 jobs:
   build:
     environment: Staging
-    uses: ./.github/workflows/build.yml
+    runs-on: self-hosted
+    steps:
+      - uses: ./.github/workflows/build.yml
   deploy-staging:
     needs: build
     environment: Staging
