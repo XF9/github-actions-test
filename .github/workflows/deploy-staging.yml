@@ -65,8 +65,12 @@ jobs:
             ${{ secrets.URL}}
       - name: preview-url
         run: echo ${{ steps.vercel-action.outputs.preview-url }}
+        
   tag-staging:
     needs: deploy-staging
+    environment: Staging
+    runs-on: self-hosted
+    steps:
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y%m%d%H%M')"
