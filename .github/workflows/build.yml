@@ -44,12 +44,14 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           NEXT_PUBLIC_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: npm run build
-      - name: Zip build
+      - name: Tar build
         if: ${{ inputs.artifact-name }} != ''
-        working-directory: ./apps/app/.next
-        uses: montudor/action-zip@v1
+        uses: master-atul/tar-action@v1.0.2
         with:
-          args: zip -qq -r ${{ inputs.artifact-name }}.zip .
+          command: c
+          cwd: ./apps/app/.next # current working directory
+          files: .
+          outPath: ${{ inputs.artifact-name }}.tar.gz
       - name: Upload artifact
         if: ${{ inputs.artifact-name }} != ''
         uses: actions/upload-artifact@v2
