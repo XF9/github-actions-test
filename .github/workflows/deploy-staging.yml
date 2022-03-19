@@ -19,8 +19,25 @@ jobs:
       SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
       SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
       
-  deploy-staging:
+  migrate:
     needs: build
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    - name: Install dependencies
+      run: npm install
+    - name: Run migrations
+      env:
+        MIGRATIONS_POSTGRES_URL: ${{ secrets.MIGRATIONS_POSTGRES_URL }}
+        MIGRATIONS_POSTGRES_USER: ${{ secrets.MIGRATIONS_POSTGRES_USER }}
+        MIGRATIONS_POSTGRES_PASSWORD: ${{ secrets.MIGRATIONS_POSTGRES_PASSWORD }}
+      run: npm run migrate && npm run migrate # two times, becasue the first time it will only download the files
+
+  deploy-staging:
+    needs: migrate
     environment: Staging
     runs-on: self-hosted
     steps:
@@ -28,26 +45,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: staging-latest
-      - name: Create depoloy dir
-        run: mkdir deploy
-      - name: remove this
-        run: touch ./deploy/test.txt
-      - name: Unzip -qq staging artifact
-        uses: montudor/action-zip@v1
+      - name: Untar build
+        uses: master-atul/tar-action@v1.0.2
         with:
-          args: unzip staging-latest.zip -d deploy
-      - name: Install node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-      - name: Install dependencies
-        run: npm install
-      - name: Run migrations
-        env:
-          MIGRATIONS_POSTGRES_URL: ${{ secrets.MIGRATIONS_POSTGRES_URL }}
-          MIGRATIONS_POSTGRES_USER: ${{ secrets.MIGRATIONS_POSTGRES_USER }}
-          MIGRATIONS_POSTGRES_PASSWORD: ${{ secrets.MIGRATIONS_POSTGRES_PASSWORD }}
-        run: npm run migrate && npm run migrate # two times, becasue the first time it will only download the files
+          command: xzf staging-latest.tar.gz
       - name: Publish to staging
         uses: amondnet/vercel-action@v20
         with:
@@ -61,6 +62,8 @@ jobs:
             ${{ secrets.URL}}
       - name: preview-url
         run: echo ${{ steps.vercel-action.outputs.preview-url }}
+  tag-staging:
+    needs: deploy-staging
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y%m%d%H%M')"
