@@ -56,5 +56,5 @@ jobs:
         if: ${{ inputs.artifact-name }} != ''
         uses: actions/upload-artifact@v2
         with:
-          path: ./${{ inputs.artifact-name }}.zip
+          path: ./${{ inputs.artifact-name }}.tar.gz
           name: ${{ inputs.artifact-name }}
