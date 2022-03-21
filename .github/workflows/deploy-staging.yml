@@ -22,7 +22,8 @@ jobs:
   migrate-staging:
     needs: build
     environment: Staging
-    runs-on: self-hosted
+    #runs-on: self-hosted
+    runs-on: linux
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -42,7 +43,8 @@ jobs:
   deploy-staging:
     needs: migrate-staging
     environment: Staging
-    runs-on: self-hosted
+    #runs-on: self-hosted
+    runs-on: linux
     steps:
       - name: Download staging artifact
         uses: actions/download-artifact@v2
@@ -70,7 +72,8 @@ jobs:
   tag-staging:
     needs: deploy-staging
     environment: Staging
-    runs-on: self-hosted
+    #runs-on: self-hosted
+    runs-on: linux
     steps:
       - name: Get current date
         id: date
