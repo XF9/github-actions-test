@@ -5,8 +5,8 @@
         "enabled": false
     },
     "builds": [
-        { 
-            "src": "/apps/app/.next", 
+        {
+            "src": ".",
             "use": "@vercel/static"
         }
     ]
