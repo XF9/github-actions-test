@@ -46,7 +46,7 @@ jobs:
         run: npm run build
       - name: Tar build
         if: ${{ inputs.artifact-name }} != ''
-        uses: master-atul/tar-action@v1.0.2
+        uses: master-atul/tar-action@v1.1.0
         with:
           command: c
           cwd: ./apps/app/.next # current working directory

@@ -18,7 +18,7 @@ jobs:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
       SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-      
+
   migrate-staging:
     needs: build
     environment: Staging
@@ -51,7 +51,8 @@ jobs:
       - name: Untar build
         uses: master-atul/tar-action@v1.0.2
         with:
-          command: xzf staging-latest.tar.gz
+          command: x
+          files: staging-latest.tar.gz
       - name: Publish to staging
         uses: amondnet/vercel-action@v20
         with:
@@ -65,7 +66,7 @@ jobs:
             ${{ secrets.URL}}
       - name: preview-url
         run: echo ${{ steps.vercel-action.outputs.preview-url }}
-        
+
   tag-staging:
     needs: deploy-staging
     environment: Staging
