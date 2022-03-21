@@ -44,6 +44,10 @@ jobs:
     environment: Staging
     runs-on: self-hosted
     steps:
+      - name: Install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
       - name: Download staging artifact
         uses: actions/download-artifact@v2
         with:
