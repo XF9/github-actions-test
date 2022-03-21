@@ -57,6 +57,8 @@ jobs:
         with:
           command: x
           files: staging-latest.tar.gz
+      - name: Install vercel CLI
+        run: npm i vercel
       - name: "Deploy to Vercel"
         run: |
           npx vercel --token ${VERCEL_TOKEN}
