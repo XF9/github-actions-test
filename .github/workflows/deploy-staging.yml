@@ -54,12 +54,12 @@ jobs:
           name: staging-latest
       - name: Create deploy dir
         run: mkdir deploy
-      # - name: Untar build
-      #   uses: master-atul/tar-action@v1.1.0
-      #   with:
-      #     command: x
-      #     files: staging-latest.tar.gz
-      #     cwd: ./deploy
+      - name: Untar build
+        uses: master-atul/tar-action@v1.1.0
+        with:
+          command: x
+          files: staging-latest.tar.gz
+#          cwd: ./deploy
       - name: Install vercel CLI
         run: npm i vercel
       - name: "Deploy to Vercel"
