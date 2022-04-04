@@ -48,18 +48,33 @@ jobs:
       #   uses: actions/setup-node@v2
       #   with:
       #     node-version: '16'
-      - name: Download staging artifact
-        uses: actions/download-artifact@v2
+#       - name: Download staging artifact
+#         uses: actions/download-artifact@v2
+#         with:
+#           name: staging-latest
+#       - name: Create deploy dir
+#         run: mkdir deploy
+#       - name: Untar build
+#         uses: master-atul/tar-action@v1.1.0
+#         with:
+#           command: x
+#           files: staging-latest.tar.gz
+# #          cwd: ./deploy
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install node
+        uses: actions/setup-node@v2
         with:
-          name: staging-latest
-      - name: Create deploy dir
-        run: mkdir deploy
-      - name: Untar build
-        uses: master-atul/tar-action@v1.1.0
-        with:
-          command: x
-          files: staging-latest.tar.gz
-#          cwd: ./deploy
+          node-version: '16'
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        env:
+          HOME_URL: ${{ secrets.URL }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: npm run build
       - name: Install vercel CLI
         run: npm i vercel
       - name: "Deploy to Vercel"
