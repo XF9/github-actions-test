@@ -62,19 +62,19 @@ jobs:
 # #          cwd: ./deploy
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-      - name: Install dependencies
-        run: npm install
-      - name: Build
-        env:
-          HOME_URL: ${{ secrets.URL }}
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          NEXT_PUBLIC_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: npm run build
+      # - name: Install node
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: '16'
+      # - name: Install dependencies
+      #   run: npm install
+      # - name: Build
+      #   env:
+      #     HOME_URL: ${{ secrets.URL }}
+      #     NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      #     NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      #     NEXT_PUBLIC_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+      #   run: npm run build
       - name: Install vercel CLI
         run: npm i vercel
       - name: "Deploy to Vercel"
