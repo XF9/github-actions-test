@@ -6,7 +6,7 @@
     },
     "builds": [
         {
-            "src": "./deploy",
+            "src": "./",
             "use": "@vercel/static"
         }
     ]
