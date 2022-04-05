@@ -103,6 +103,8 @@ jobs:
     environment: Staging
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y%m%d%H%M')"
