@@ -48,20 +48,20 @@ jobs:
       #   uses: actions/setup-node@v2
       #   with:
       #     node-version: '16'
-#       - name: Download staging artifact
-#         uses: actions/download-artifact@v2
-#         with:
-#           name: staging-latest
-#       - name: Create deploy dir
-#         run: mkdir deploy
-#       - name: Untar build
-#         uses: master-atul/tar-action@v1.1.0
-#         with:
-#           command: x
-#           files: staging-latest.tar.gz
-# #          cwd: ./deploy
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Download staging artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: staging-latest
+      - name: Create deploy dir
+        run: mkdir deploy
+      - name: Untar build
+        uses: master-atul/tar-action@v1.1.0
+        with:
+          command: x
+          files: staging-latest.tar.gz
+#          cwd: ./deploy
+      # - name: Checkout
+      #   uses: actions/checkout@v2
       # - name: Install node
       #   uses: actions/setup-node@v2
       #   with:
@@ -75,15 +75,6 @@ jobs:
       #     NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
       #     NEXT_PUBLIC_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
       #   run: npm run build
-      - name: Install vercel CLI
-        run: npm i vercel
-      - name: "Deploy to Vercel"
-        run: |
-          npx vercel --token ${VERCEL_TOKEN}
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       # - name: Publish to staging
       #   uses: amondnet/vercel-action@v20
       #   with:
@@ -95,8 +86,21 @@ jobs:
       #     #scope: [TeamId]
       #     alias-domains: |
       #       ${{ secrets.URL}}
-      - name: preview-url
-        run: echo ${{ steps.vercel-action.outputs.preview-url }}
+
+      ### THIS IS WORKING
+      # - name: Checkout
+      #   uses: actions/checkout@v2
+      # - name: Install vercel CLI
+      #   run: npm i vercel
+      - name: "Deploy to Vercel"
+        run: |
+          npx vercel --token ${VERCEL_TOKEN}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      # - name: preview-url
+      #   run: echo ${{ steps.vercel-action.outputs.preview-url }}
 
   tag-staging:
     needs: deploy-staging
