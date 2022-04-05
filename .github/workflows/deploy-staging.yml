@@ -2,34 +2,34 @@ name: deploy-staging
 on:
   # push to master
   push:
-  #  branches:
-  #    - 'master'
+    branches:
+      - 'master'
 
   # manually
   workflow_dispatch:
 
 jobs:
-  # migrate-staging:
-  #   environment: Staging
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: Install node
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: '16'
-  #     - name: Install dependencies
-  #       run: npm install
-  #     - name: Run migrations
-  #       env:
-  #         MIGRATIONS_POSTGRES_URL: ${{ secrets.MIGRATIONS_POSTGRES_URL }}
-  #         MIGRATIONS_POSTGRES_USER: ${{ secrets.MIGRATIONS_POSTGRES_USER }}
-  #         MIGRATIONS_POSTGRES_PASSWORD: ${{ secrets.MIGRATIONS_POSTGRES_PASSWORD }}
-  #       run: npm run migrate && npm run migrate # two times, becasue the first time it will only download the files
+  migrate-staging:
+    environment: Staging
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: npm install
+      - name: Run migrations
+        env:
+          MIGRATIONS_POSTGRES_URL: ${{ secrets.MIGRATIONS_POSTGRES_URL }}
+          MIGRATIONS_POSTGRES_USER: ${{ secrets.MIGRATIONS_POSTGRES_USER }}
+          MIGRATIONS_POSTGRES_PASSWORD: ${{ secrets.MIGRATIONS_POSTGRES_PASSWORD }}
+        run: npm run migrate && npm run migrate # two times, becasue the first time it will only download the files
 
   deploy-staging:
-    #needs: migrate-staging
+    needs: migrate-staging
     environment: Staging
     runs-on: ubuntu-latest
     steps:
@@ -40,9 +40,9 @@ jobs:
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          #vercel-args: '--prod' #Optional
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}  #Required
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required 
+          #vercel-args: '--prod'
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           alias-domains: |
             github-actions-test-staging.vercel.app
 
