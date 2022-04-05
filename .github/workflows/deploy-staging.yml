@@ -35,16 +35,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install vercel CLI
-        run: npm i vercel
-      - name: Set Vercel URL
-        run: npx vercel alias set github-actions-test-staging.vercel.app --token ${VERCEL_TOKEN}
-      - name: "Deploy to Vercel"
-        run: npx vercel --token ${VERCEL_TOKEN}
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      - name: Deploy
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ VERCEL_TOKEN }}
+          github-token: ${{} secrets.GITHUB_TOKEN }}
+          #vercel-args: '--prod' #Optional
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}  #Required
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required 
+          alias-domains: |
+            github-actions-test-staging.vercel.app
 
   tag-staging:
     needs: deploy-staging
