@@ -38,9 +38,9 @@ jobs:
       - name: Install vercel CLI
         run: npm i vercel
       - name: Set Vercel URL
-        run: npm vercel alias set github-actions-test-staging.vercel.app
+        run: npx vercel alias set github-actions-test-staging.vercel.app
       - name: "Deploy to Vercel"
-        run: npm vercel --token ${VERCEL_TOKEN}
+        run: npx vercel --token ${VERCEL_TOKEN}
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
