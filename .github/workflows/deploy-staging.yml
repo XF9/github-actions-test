@@ -2,8 +2,8 @@ name: deploy-staging
 on:
   # push to master
   push:
-    branches:
-      - 'master'
+  #  branches:
+  #    - 'master'
 
   # manually
   workflow_dispatch:
