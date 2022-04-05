@@ -1,26 +1,15 @@
 name: deploy-staging
 on:
-  # Push to master
+  # push to master
   push:
   #  branches:
   #    - 'master'
 
-  # Allows you to run this workflow manually from the Actions tab
+  # manually
   workflow_dispatch:
 
 jobs:
-  build:
-    uses: ./.github/workflows/build.yml
-    with:
-      artifact-name: staging-latest
-    secrets:
-      URL: ${{ secrets.URL }}
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-      SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-
   migrate-staging:
-    needs: build
     environment: Staging
     runs-on: ubuntu-latest
     steps:
@@ -44,54 +33,10 @@ jobs:
     environment: Staging
     runs-on: ubuntu-latest
     steps:
-      # - name: Install node
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: '16'
-      - name: Download staging artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: staging-latest
-      - name: Create deploy dir
-        run: mkdir deploy
-      - name: Untar build
-        uses: master-atul/tar-action@v1.1.0
-        with:
-          command: x
-          files: staging-latest.tar.gz
-#          cwd: ./deploy
-      # - name: Checkout
-      #   uses: actions/checkout@v2
-      # - name: Install node
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: '16'
-      # - name: Install dependencies
-      #   run: npm install
-      # - name: Build
-      #   env:
-      #     HOME_URL: ${{ secrets.URL }}
-      #     NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      #     NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-      #     NEXT_PUBLIC_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-      #   run: npm run build
-      # - name: Publish to staging
-      #   uses: amondnet/vercel-action@v20
-      #   with:
-      #     vercel-token: ${{ secrets.VERCEL_TOKEN }}
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
-      #     vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
-      #     #vercel-args: '--prod'
-      #     #scope: [TeamId]
-      #     alias-domains: |
-      #       ${{ secrets.URL}}
-
-      ### THIS IS WORKING
-      # - name: Checkout
-      #   uses: actions/checkout@v2
-      # - name: Install vercel CLI
-      #   run: npm i vercel
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install vercel CLI
+        run: npm i vercel
       - name: "Deploy to Vercel"
         run: |
           npx vercel --token ${VERCEL_TOKEN}
@@ -99,8 +44,6 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      # - name: preview-url
-      #   run: echo ${{ steps.vercel-action.outputs.preview-url }}
 
   tag-staging:
     needs: deploy-staging
